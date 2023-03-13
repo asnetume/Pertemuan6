@@ -62,7 +62,7 @@ class PencakerDaftarLowonganController extends Controller
             ]);
         } catch (\Throwable $th) {
             return response()->json([
-                "message" => 'error kesalahan saat insert data',
+                "message" => $th->getMessage(),
                 'statusCode' => 400,
                 "data" => null
             ]);
@@ -127,7 +127,7 @@ class PencakerDaftarLowonganController extends Controller
             ]);
         } catch (\Throwable $th) {
             return response()->json([
-                "message" => 'error kesalahan saat update data',
+                "message" => $th->getMessage(),
                 'statusCode' => 400,
                 "data" => null
             ]);
@@ -147,7 +147,7 @@ class PencakerDaftarLowonganController extends Controller
             ]);
         } catch (\Throwable $th) {
             return response()->json([
-                "message" => "error kesalahan saat delete data",
+                "message" => $th->getMessage(),
                 'statusCode' => 400,
             ]);
         }
