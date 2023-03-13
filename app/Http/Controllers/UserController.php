@@ -52,17 +52,18 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        try {
+        $checkData  = User::find($id);
+         if (!$checkData == []) {
             return response()->json([
                 "message" => "success",
                 'statusCode' => 200,
-                "data" => User::find($id)
-            ]);;
-        } catch (\Throwable $th) {
+                "data" => $checkData
+            ]);
+        } else {
             return response()->json([
-                "message" => $th->getMessage(),
+                "message" => 'error data tidak di temukan',
                 'statusCode' => 404,
                 "data" => null
             ]);
