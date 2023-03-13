@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('judul');
             $table->text('deskripsi');
             $table->string('alamat');
-            $table->string('waktu_mulai');
-            $table->string('waktu_berakhir');
+            $table->date('waktu_mulai');
+            $table->date('waktu_berakhir');
             $table->string('status');
             $table->timestamps();
         });

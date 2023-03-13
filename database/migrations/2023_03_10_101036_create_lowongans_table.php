@@ -22,8 +22,8 @@ return new class extends Migration
             $table->string('fasilitas');
             $table->text('deskripsi');
             $table->string('jenis_kelamin');
-            $table->string('usia_minimal');
-            $table->string('usai_maximal');
+            $table->integer('usia_minimal');
+            $table->integer('usai_maximal');
             $table->string('kualifikasi');
             $table->timestamps();
         });

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedInteger('id_pencaker');
             $table->string('institusi');
             $table->string('jurusan');
-            $table->string('tahun_lulus');
+            $table->date('tahun_lulus');
             $table->string('ijasah');
             $table->unsignedInteger('ipk');
             $table->timestamps();

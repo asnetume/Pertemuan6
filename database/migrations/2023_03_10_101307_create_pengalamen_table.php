@@ -16,8 +16,8 @@ return new class extends Migration
             $table->unsignedInteger('id_pencaker');
             $table->string('nama_perusahaan');
             $table->string('jabatan');
-            $table->string('tahun_masuk');
-            $table->string('tahun_keluar');
+            $table->date('tahun_masuk');
+            $table->date('tahun_keluar');
             $table->timestamps();
         });
     }

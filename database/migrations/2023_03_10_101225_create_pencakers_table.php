@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedInteger('id_user');
             $table->unsignedInteger('id_provinsi');
             $table->string('nama');
-            $table->string('tangal_lahir');
+            $table->date('tangal_lahir');
             $table->string('jenis_kelamin');
             $table->unsignedInteger('telpon');
             $table->unsignedInteger('ktp');
