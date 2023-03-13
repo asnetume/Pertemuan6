@@ -13,14 +13,13 @@ class PerusahaanDaftarEventController extends Controller
      */
     public function index()
     {
-         $data = Perusahaan_Daftar_Event::with('perusahaan', 'event')->get();
+         $data = Perusahaan_Daftar_Event::with('perusahaan')->get();
         $decodeData = json_decode(json_encode($data));
         foreach($decodeData as $key =>$value){
  
             $dataTransform[] = [
                 "id" => $value->id,
                 "perusahaan" => $value->perusahaan,
-                "event" => $value->event,
                 "nama_pic" => $value->nama_pic,
                 "jabatan_pic" => $value->jabatan_pic,
                 "persetujuan" => $value->persetujuan,
@@ -51,7 +50,6 @@ class PerusahaanDaftarEventController extends Controller
          try {
             $isValidateData = $request->validate([
                 "id_perusahaan" => 'required',
-                "id_event" => 'required',
                 "nama_pic" => 'required',
                 "jabatan_pic" => 'required',
                 "persetujuan" => 'required',
@@ -82,7 +80,6 @@ class PerusahaanDaftarEventController extends Controller
               $setData = [
                "id" => $checkData->id,
                 "perusahaan" => $checkData->perusahaan,
-                "event" => $checkData->event,
                 "nama_pic" => $checkData->nama_pic,
                 "jabatan_pic" => $checkData->jabatan_pic,
                 "persetujuan" => $checkData->persetujuan,
@@ -118,7 +115,6 @@ class PerusahaanDaftarEventController extends Controller
          try {
             $isValidateData = $request->validate([
                  "id_perusahaan" => 'required',
-                "id_event" => 'required',
                 "nama_pic" => 'required',
                 "jabatan_pic" => 'required',
                 "persetujuan" => 'required',
