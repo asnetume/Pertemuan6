@@ -14,8 +14,7 @@ return new class extends Migration
         Schema::create('lowongans', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('id_perusahaan');
-            $table->unsignedInteger('id_user');
-            $table->unsignedInteger('id_event');
+            $table->unsignedInteger('id_perusahaan_daftar_event');
             $table->string('posisi');
             $table->unsignedInteger('kuota');
             $table->string('tugas');

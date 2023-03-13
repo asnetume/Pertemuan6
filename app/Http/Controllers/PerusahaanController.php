@@ -13,10 +13,24 @@ class PerusahaanController extends Controller
      */
     public function index()
     {
+          $data = Perusahaan::with('user', 'bidang', 'provinsi')->get();
+        $decodeData = json_decode(json_encode($data));
+        foreach($decodeData as $key =>$value){
+ 
+            $dataTransform[] = [
+                "id" => $value->id,
+                "user" => $value->user,
+                "bidang" => $value->bidang->nama_bidang,
+                "nama_perushaan" => $value->nama_perushaan,
+                "alamat" => $value->alamat,
+                "provinsi" => $value->provinsi->provinsi,
+                "website" => $value->website,
+            ];
+        }
         return response()->json([
             "message" => "success",
             'statusCode' => 200,
-            "data" => Perusahaan::all(),
+            "data" => $dataTransform,
         ]);
     }
 
@@ -37,9 +51,9 @@ class PerusahaanController extends Controller
             $isValidateData = $request->validate([
                 "id_user" => 'required',
                 "id_bidang" => 'required',
-                "nama" => 'required',
+                "id_provinsi" => 'required',
+                "nama_perushaan" => 'required',
                 "alamat" => 'required',
-                "provinsi" => 'required',
                 "website" => 'required',
             ]);
             Perusahaan::create($isValidateData);
@@ -60,21 +74,32 @@ class PerusahaanController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Perusahaan $perusahaan)
+    public function show($id)
     {
-        try {
+          $checkData  = Perusahaan::find($id);
+         if (!$checkData == []) {
+              $setData = [
+              "id" => $checkData->id,
+                "user" => $checkData->user,
+                "bidang" => $checkData->bidang->nama_bidang,
+                "nama_perushaan" => $checkData->nama_perushaan,
+                "alamat" => $checkData->alamat,
+                "provinsi" => $checkData->provinsi->provinsi,
+                "website" => $checkData->website,
+            ];
             return response()->json([
                 "message" => "success",
                 'statusCode' => 200,
-                "data" => Perusahaan::find($perusahaan)
-            ]);;
-        } catch (\Throwable $th) {
+                "data" => $setData
+            ]);
+        } else {
             return response()->json([
                 "message" => 'error data tidak di temukan',
                 'statusCode' => 404,
                 "data" => null
             ]);
         }
+        
     }
 
     /**
@@ -94,9 +119,9 @@ class PerusahaanController extends Controller
             $isValidateData = $request->validate([
                 "id_user" => 'required',
                 "id_bidang" => 'required',
-                "nama" => 'required',
+                "id_provinsi" => 'required',
+                "nama_perusahaan" => 'required',
                 "alamat" => 'required',
-                "provinsi" => 'required',
                 "website" => 'required',
             ]);
             $perusahaan->update($isValidateData);

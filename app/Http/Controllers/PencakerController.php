@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Pencaker;
 use App\Http\Requests\StorePencakerRequest;
 use App\Http\Requests\UpdatePencakerRequest;
+use App\Models\Pendidikan;
+use App\Models\Pengalaman;
+use Illuminate\Support\Facades\DB;
 
 class PencakerController extends Controller
 {
@@ -13,10 +16,29 @@ class PencakerController extends Controller
      */
     public function index()
     {
+
+        $data = Pencaker::with('user', 'provinsi', 'pengalaman', 'pendidikan')->get();
+        $decodeData = json_decode(json_encode($data));
+        foreach($decodeData as $key =>$value){
+ 
+            $dataTransform[] = [
+                 "id" => $value->id,
+                 "nama" => $value->nama,
+                "tangal_lahir" => $value->tangal_lahir,
+                "jenis_kelamin" => $value->jenis_kelamin,
+                "telpon" => $value->telpon,
+                "ktp" => $value->ktp,
+                "disabilitas" => $value->disabilitas,
+                "provinsi" => $value->provinsi->provinsi,
+                "pengalaman" => $value->pengalaman,
+                "pendidikan" => $value->pendidikan,
+                "user" => $value->user,
+            ];
+        }
         return response()->json([
             "message" => "success",
             'statusCode' => 200,
-            "data" => Pencaker::all(),
+            "data" => $dataTransform,
         ]);
     }
 
@@ -62,15 +84,29 @@ class PencakerController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Pencaker $pencaker)
+    public function show($id)
     {
-        try {
+          $checkData  = Pencaker::find($id);
+         if (!$checkData == []) {
+              $setData = [
+                "id" => $checkData->id,
+                "nama" => $checkData->nama,
+                "tangal_lahir" => $checkData->tangal_lahir,
+                "jenis_kelamin" => $checkData->jenis_kelamin,
+                "telpon" => $checkData->telpon,
+                "ktp" => $checkData->ktp,
+                "disabilitas" => $checkData->disabilitas,
+                "provinsi" => $checkData->provinsi->provinsi,
+                "pengalaman" => $checkData->pengalaman,
+                "pendidikan" => $checkData->pendidikan,
+                "user" => $checkData->user
+            ];
             return response()->json([
                 "message" => "success",
                 'statusCode' => 200,
-                "data" => Pencaker::find($pencaker)
-            ]);;
-        } catch (\Throwable $th) {
+                "data" => $setData
+            ]);
+        } else {
             return response()->json([
                 "message" => 'error data tidak di temukan',
                 'statusCode' => 404,

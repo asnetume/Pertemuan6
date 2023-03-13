@@ -5,9 +5,11 @@ use App\Http\Controllers\BidangController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\LowonganController;
 use App\Http\Controllers\PencakerController;
+use App\Http\Controllers\PencakerDaftarLowonganController;
 use App\Http\Controllers\PendidikanController;
 use App\Http\Controllers\PengalamanController;
 use App\Http\Controllers\PerusahaanController;
+use App\Http\Controllers\PerusahaanDaftarEventController;
 use App\Http\Controllers\ProvinsiController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -46,4 +48,7 @@ Route::resource('/bidang',  BidangController::class);
 
 Route::resource('/provinsi',  ProvinsiController::class);
 
-Route::resource('/login',  UserController::class);
+Route::resource('/user',  UserController::class);
+
+Route::resource('/daftar-event',  PerusahaanDaftarEventController::class);
+Route::resource('/daftar-lowongan',  PencakerDaftarLowonganController::class);

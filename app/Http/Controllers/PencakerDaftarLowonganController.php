@@ -2,21 +2,34 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Bidang;
-use App\Http\Requests\StoreBidangRequest;
-use App\Http\Requests\UpdateBidangRequest;
+use App\Models\Pencaker_Daftar_Lowongan;
+use App\Http\Requests\StorePencaker_Daftar_LowonganRequest;
+use App\Http\Requests\UpdatePencaker_Daftar_LowonganRequest;
 
-class BidangController extends Controller
+class PencakerDaftarLowonganController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return response()->json([
+         $data = Pencaker_Daftar_Lowongan::with('pencaker', 'lowongan')->get();
+        $decodeData = json_decode(json_encode($data));
+        foreach($decodeData as $key =>$value){
+ 
+            $dataTransform[] = [
+                "id" => $value->id,
+                "pencaker" => $value->pencaker,
+                "lowongan" => $value->lowongan,
+                "lamaran" => $value->lamaran,
+                "cv" => $value->cv,
+                "status_lamaran" => $value->status_lamaran,
+            ];
+        }
+          return response()->json([
             "message" => "success",
             'statusCode' => 200,
-            "data" => Bidang::all(),
+            "data" => $dataTransform,
         ]);
     }
 
@@ -31,13 +44,17 @@ class BidangController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreBidangRequest $request)
+    public function store(StorePencaker_Daftar_LowonganRequest $request)
     {
-        try {
+         try {
             $isValidateData = $request->validate([
-                "nama_bidang" => 'required',
+                "id_pencaker" => 'required',
+                "id_lowongan" => 'required',
+                "lamaran" => 'required',
+                "cv" => 'required',
+                "status_lamaran" => 'required',
             ]);
-            Bidang::create($isValidateData);
+            Pencaker_Daftar_Lowongan::create($isValidateData);
             return response()->json([
                 "message" => "success",
                 'statusCode' => 200,
@@ -57,12 +74,20 @@ class BidangController extends Controller
      */
     public function show($id)
     {
-        $checkData  = Bidang::find($id);
+          $checkData  = Pencaker_Daftar_Lowongan::find($id);
          if (!$checkData == []) {
+              $setData = [
+              "id" => $checkData->id,
+                "pencaker" => $checkData->pencaker,
+                "lowongan" => $checkData->lowongan,
+                "lamaran" => $checkData->lamaran,
+                "cv" => $checkData->cv,
+                "status_lamaran" => $checkData->status_lamaran,
+            ];
             return response()->json([
                 "message" => "success",
                 'statusCode' => 200,
-                "data" => $checkData
+                "data" => $setData
             ]);
         } else {
             return response()->json([
@@ -76,7 +101,7 @@ class BidangController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Bidang $bidang)
+    public function edit(Pencaker_Daftar_Lowongan $pencaker_Daftar_Lowongan)
     {
         //
     }
@@ -84,13 +109,17 @@ class BidangController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateBidangRequest $request, Bidang $bidang)
+    public function update(UpdatePencaker_Daftar_LowonganRequest $request, Pencaker_Daftar_Lowongan $pencaker_Daftar_Lowongan)
     {
-        try {
+          try {
             $isValidateData = $request->validate([
-                "nama_bidang" => 'required',
+                "id_pencaker" => 'required',
+                "id_lowongan" => 'required',
+                "lamaran" => 'required',
+                "cv" => 'required',
+                "status_lamaran" => 'required',
             ]);
-            $bidang->update($isValidateData);
+            $pencaker_Daftar_Lowongan->update($isValidateData);
             return response()->json([
                 "message" => "success",
                 'statusCode' => 200,
@@ -108,10 +137,10 @@ class BidangController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Bidang $bidang)
+    public function destroy(Pencaker_Daftar_Lowongan $pencaker_Daftar_Lowongan)
     {
-        try {
-            $bidang->delete();
+         try {
+            $pencaker_Daftar_Lowongan->delete();
             return response()->json([
                 "message" => "success",
                 'statusCode' => 200,

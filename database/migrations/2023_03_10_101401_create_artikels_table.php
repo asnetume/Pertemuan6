@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('artikels', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('id_user');
+            $table->unsignedInteger('id_pencaker');
             $table->string('judul');
             $table->text('isi');
             $table->timestamps();

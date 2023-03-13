@@ -13,10 +13,24 @@ class EventController extends Controller
      */
     public function index()
     {
+        $data = Event::with('perusahaan_daftar_event')->get();
+        $decodeData = json_decode(json_encode($data));
+        foreach($decodeData as $key =>$value){
+ 
+            $dataTransform[] = [
+                 "judul" => $value->judul,
+                "deskripsi" => $value->deskripsi,
+                "status" => $value->status,
+                "alamat" => $value->alamat,
+                "waktu_mulai" => $value->waktu_mulai,
+                "waktu_berakhir" => $value->waktu_berakhir,
+                "perusahaan_daftar_events" => $value->perusahaan_daftar_events,
+            ];
+        }
         return response()->json([
             "message" => "success",
             'statusCode' => 200,
-            "data" => Event::all(),
+            "data" => $dataTransform,
         ]);
     }
 
@@ -35,11 +49,12 @@ class EventController extends Controller
     {
         try {
             $isValidateData = $request->validate([
-                "id_user" => 'required',
-                "id_provinsi" => 'required',
+                "id_perusahaan_daftar_events" => 'required',
+                "alamat" => 'required',
                 "deskripsi" => 'required',
+                "waktu_mulai" => 'required',
+                "waktu_berakhir" => 'required',
                 "status" => 'required',
-                "exp_date" => 'required',
                 "judul" => 'required',
             ]);
             Event::create($isValidateData);
@@ -60,15 +75,25 @@ class EventController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Event $event)
+    public function show($id)
     {
-        try {
+       $checkData  = Event::find($id);
+         if (!$checkData == []) {
+              $setData = [
+                "judul" => $checkData->judul,
+                "deskripsi" => $checkData->deskripsi,
+                "status" => $checkData->status,
+                "alamat" => $checkData->alamat,
+                "waktu_mulai" => $checkData->waktu_mulai,
+                "waktu_berakhir" => $checkData->waktu_berakhir,
+                "perusahaan_daftar_events" => $checkData->perusahaan_daftar_events,
+            ];
             return response()->json([
                 "message" => "success",
                 'statusCode' => 200,
-                "data" => Event::find($event)
-            ]);;
-        } catch (\Throwable $th) {
+                "data" => $setData
+            ]);
+        } else {
             return response()->json([
                 "message" => 'error data tidak di temukan',
                 'statusCode' => 404,
@@ -92,11 +117,12 @@ class EventController extends Controller
     {
         try {
             $isValidateData = $request->validate([
-                "id_user" => 'required',
-                "id_provinsi" => 'required',
+                "id_perusahaan_daftar_events" => 'required',
+                "alamat" => 'required',
                 "deskripsi" => 'required',
+                "waktu_mulai" => 'required',
+                "waktu_berakhir" => 'required',
                 "status" => 'required',
-                "exp_date" => 'required',
                 "judul" => 'required',
             ]);
             $event->update($isValidateData);

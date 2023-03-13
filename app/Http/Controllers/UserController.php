@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -26,8 +27,13 @@ class UserController extends Controller
     {
         try {
             $isValidateData = $request->validate([
-                "provinsi" => 'required',
+                "name" => 'required',
+                "email" => 'required',
+                "password" => 'required',
+                "status" => 'required',
+                "level" => 'required',
             ]);
+            $isValidateData['password'] = Hash::make($isValidateData['password']);
             User::create($isValidateData);
             return response()->json([
                 "message" => "success",
@@ -70,8 +76,13 @@ class UserController extends Controller
     {
         try {
             $isValidateData = $request->validate([
-                "provinsi" => 'required',
+                "name" => 'required',
+                "email" => 'required',
+                "password" => 'required',
+                "status" => 'required',
+                "level" => 'required',
             ]);
+            $isValidateData['password'] = Hash::make($isValidateData['password']);
             $user->update($isValidateData);
             return response()->json([
                 "message" => "success",

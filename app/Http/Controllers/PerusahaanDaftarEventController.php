@@ -2,31 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pendidikan;
-use App\Http\Requests\StorePendidikanRequest;
-use App\Http\Requests\UpdatePendidikanRequest;
+use App\Models\Perusahaan_Daftar_Event;
+use App\Http\Requests\StorePerusahaan_Daftar_EventRequest;
+use App\Http\Requests\UpdatePerusahaan_Daftar_EventRequest;
 
-class PendidikanController extends Controller
+class PerusahaanDaftarEventController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $data = Pendidikan::with('pencaker')->get();
+         $data = Perusahaan_Daftar_Event::with('perusahaan', 'event')->get();
         $decodeData = json_decode(json_encode($data));
         foreach($decodeData as $key =>$value){
  
             $dataTransform[] = [
                 "id" => $value->id,
-                "pencaker" => $value->pencaker,
-                "institusi" => $value->institusi,
-                "jurusan" => $value->jurusan,
-                "tahun_lulus" => $value->tahun_lulus,
-                "ijasah" => $value->ijasah,
-                "ipk" => $value->ipk,
+                "perusahaan" => $value->perusahaan,
+                "event" => $value->event,
+                "nama_pic" => $value->nama_pic,
+                "jabatan_pic" => $value->jabatan_pic,
+                "persetujuan" => $value->persetujuan,
+                "alasan_ditolak" => $value->alasan_ditolak,
             ];
         }
+        
         return response()->json([
             "message" => "success",
             'statusCode' => 200,
@@ -45,18 +46,18 @@ class PendidikanController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorePendidikanRequest $request)
+    public function store(StorePerusahaan_Daftar_EventRequest $request)
     {
-        try {
+         try {
             $isValidateData = $request->validate([
-                "id_pencaker" => 'required',
-                "institusi" => 'required',
-                "jurusan" => 'required',
-                "tahun_lulus" => 'required',
-                "ijasah" => 'required',
-                "ipk" => 'required',
+                "id_perusahaan" => 'required',
+                "id_event" => 'required',
+                "nama_pic" => 'required',
+                "jabatan_pic" => 'required',
+                "persetujuan" => 'required',
+                "alasan_ditolak" => 'required',
             ]);
-            Pendidikan::create($isValidateData);
+            Perusahaan_Daftar_Event::create($isValidateData);
             return response()->json([
                 "message" => "success",
                 'statusCode' => 200,
@@ -76,16 +77,16 @@ class PendidikanController extends Controller
      */
     public function show($id)
     {
-         $checkData  = Pendidikan::find($id);
+        $checkData  = Perusahaan_Daftar_Event::find($id);
          if (!$checkData == []) {
               $setData = [
-                "id" => $checkData->id,
-                "pencaker" => $checkData->pencaker,
-                "institusi" => $checkData->institusi,
-                "jurusan" => $checkData->jurusan,
-                "tahun_lulus" => $checkData->tahun_lulus,
-                "ijasah" => $checkData->ijasah,
-                "ipk" => $checkData->ipk,
+               "id" => $checkData->id,
+                "perusahaan" => $checkData->perusahaan,
+                "event" => $checkData->event,
+                "nama_pic" => $checkData->nama_pic,
+                "jabatan_pic" => $checkData->jabatan_pic,
+                "persetujuan" => $checkData->persetujuan,
+                "alasan_ditolak" => $checkData->alasan_ditolak,
             ];
             return response()->json([
                 "message" => "success",
@@ -104,7 +105,7 @@ class PendidikanController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Pendidikan $pendidikan)
+    public function edit(Perusahaan_Daftar_Event $perusahaan_Daftar_Event)
     {
         //
     }
@@ -112,18 +113,18 @@ class PendidikanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePendidikanRequest $request, Pendidikan $pendidikan)
+    public function update(UpdatePerusahaan_Daftar_EventRequest $request, Perusahaan_Daftar_Event $perusahaan_Daftar_Event)
     {
-        try {
+         try {
             $isValidateData = $request->validate([
-                "id_pencaker" => 'required',
-                "institusi" => 'required',
-                "jurusan" => 'required',
-                "tahun_lulus" => 'required',
-                "ijasah" => 'required',
-                "ipk" => 'required',
+                 "id_perusahaan" => 'required',
+                "id_event" => 'required',
+                "nama_pic" => 'required',
+                "jabatan_pic" => 'required',
+                "persetujuan" => 'required',
+                "alasan_ditolak" => 'required',
             ]);
-            $pendidikan->update($isValidateData);
+            $perusahaan_Daftar_Event->update($isValidateData);
             return response()->json([
                 "message" => "success",
                 'statusCode' => 200,
@@ -141,10 +142,10 @@ class PendidikanController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Pendidikan $pendidikan)
+    public function destroy(Perusahaan_Daftar_Event $perusahaan_Daftar_Event)
     {
-        try {
-            $pendidikan->delete();
+         try {
+            $perusahaan_Daftar_Event->delete();
             return response()->json([
                 "message" => "success",
                 'statusCode' => 200,

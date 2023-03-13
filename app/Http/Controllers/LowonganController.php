@@ -13,11 +13,31 @@ class LowonganController extends Controller
      */
     public function index()
     {
+         $data = Lowongan::with('user', 'perusahaan', 'perusahaan_daftar_event', 'event')->get();
+        $decodeData = json_decode(json_encode($data));
+        foreach($decodeData as $key =>$value){
+ 
+            $dataTransform[] = [
+                "id" => $value->id,
+                "perushaan" => $value->perushaan,
+                "perusahaan_daftar_event" => $value->perusahaan_daftar_event,
+                "posisi" => $value->posisi,
+                "kuota" => $value->kuota,
+                "tugas" => $value->tugas,
+                "gaji" => $value->gaji,
+                "fasilitas" => $value->fasilitas,
+                "deskripsi" => $value->deskripsi,
+                "jenis_kelamin" => $value->jenis_kelamin,
+                "usia_minimal" => $value->usia_minimal,
+                "usai_maximal" => $value->usai_maximal,
+                "kualifikasi" => $value->kualifikasi,
+            ];
+        }
 
         return response()->json([
             "message" => "success",
             'statusCode' => 200,
-            "data" => Lowongan::all(),
+            "data" => $dataTransform,
         ]);
     }
 
@@ -37,8 +57,7 @@ class LowonganController extends Controller
         try {
             $isValidateData = $request->validate([
                 "id_perusahaan" => 'required',
-                "id_user" => 'required',
-                "id_event" => 'required',
+                "id_perusahaan_daftar_event" => 'required',
                 "posisi" => 'required',
                 "kuota" => 'required',
                 "tugas" => 'required',
@@ -68,15 +87,33 @@ class LowonganController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Lowongan $lowongan)
+    public function show($id)
     {
-        try {
+         $checkData  = Lowongan::find($id);
+         if (!$checkData == []) {
+              $setData = [
+               "id" => $checkData->id,
+                "perushaan" => $checkData->perushaan,
+                "perusahaan_daftar_event" => $checkData->perusahaan_daftar_event,
+                "event" => $checkData->event,
+                "user" => $checkData->user,
+                "posisi" => $checkData->posisi,
+                "kuota" => $checkData->kuota,
+                "tugas" => $checkData->tugas,
+                "gaji" => $checkData->gaji,
+                "fasilitas" => $checkData->fasilitas,
+                "deskripsi" => $checkData->deskripsi,
+                "jenis_kelamin" => $checkData->jenis_kelamin,
+                "usia_minimal" => $checkData->usia_minimal,
+                "usai_maximal" => $checkData->usai_maximal,
+                "kualifikasi" => $checkData->kualifikasi,
+            ];
             return response()->json([
                 "message" => "success",
                 'statusCode' => 200,
-                "data" => Lowongan::find($lowongan)
-            ]);;
-        } catch (\Throwable $th) {
+                "data" => $setData
+            ]);
+        } else {
             return response()->json([
                 "message" => 'error data tidak di temukan',
                 'statusCode' => 404,
@@ -101,8 +138,7 @@ class LowonganController extends Controller
         try {
             $isValidateData = $request->validate([
                 "id_perusahaan" => 'required',
-                "id_user" => 'required',
-                "id_event" => 'required',
+                "id_perusahaan_daftar_event" => 'required',
                 "posisi" => 'required',
                 "kuota" => 'required',
                 "tugas" => 'required',

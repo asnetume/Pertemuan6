@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Artikel;
 use App\Http\Requests\StoreArtikelRequest;
 use App\Http\Requests\UpdateArtikelRequest;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class ArtikelController extends Controller
@@ -14,11 +15,12 @@ class ArtikelController extends Controller
      */
     public function index()
     {
-
+         $data = Artikel::with('pencaker')->get();
+        $decodeData = json_decode(json_encode($data));
         return response()->json([
             "message" => "success",
             'statusCode' => 200,
-            "data" => Artikel::all(),
+            "data" => $decodeData,
         ]);
 
 
@@ -39,7 +41,7 @@ class ArtikelController extends Controller
     {
         try {
             $isValidateData = $request->validate([
-                "id_user" => 'required',
+                "id_pencaker" => 'required',
                 "judul" => 'required',
                 "isi" => 'required',
             ]);
@@ -62,15 +64,21 @@ class ArtikelController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Artikel $artikel)
+    public function show($id)
     {
-        try {
+        $checkData  = Artikel::find($id);
+         if (!$checkData == []) {
+              $setData = [
+                "judul" => $checkData->judul,
+                "isi" => $checkData->isi,
+                "pencaker" => $checkData->pencaker,
+            ];
             return response()->json([
                 "message" => "success",
                 'statusCode' => 200,
-                "data" => Artikel::find($artikel)
-            ]);;
-        } catch (\Throwable $th) {
+                "data" => $setData
+            ]);
+        } else {
             return response()->json([
                 "message" => 'error data tidak di temukan',
                 'statusCode' => 404,
@@ -95,7 +103,7 @@ class ArtikelController extends Controller
     {
         try {
             $isValidateData = $request->validate([
-                "id_user" => 'required',
+                "id_pencaker" => 'required',
                 "judul" => 'required',
                 "isi" => 'required',
             ]);

@@ -13,10 +13,23 @@ class PengalamanController extends Controller
      */
     public function index()
     {
+        $data = Pengalaman::with('pencaker')->get();
+        $decodeData = json_decode(json_encode($data));
+        foreach($decodeData as $key =>$value){
+ 
+            $dataTransform[] = [
+                "id" => $value->id,
+                "pencaker" => $value->pencaker,
+                "nama_perusahaan" => $value->nama_perusahaan,
+                "jabatan" => $value->jabatan,
+                "tahun_masuk" => $value->tahun_masuk,
+                "tahun_keluar" => $value->tahun_keluar,
+            ];
+        }
         return response()->json([
             "message" => "success",
             'statusCode' => 200,
-            "data" => Pengalaman::all(),
+            "data" => $dataTransform,
         ]);
     }
 
@@ -59,15 +72,24 @@ class PengalamanController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Pengalaman $pengalaman)
+    public function show($id)
     {
-        try {
+         $checkData  = Pengalaman::find($id);
+         if (!$checkData == []) {
+              $setData = [
+                "id" => $checkData->id,
+                "pencaker" => $checkData->pencaker,
+                "nama_perusahaan" => $checkData->nama_perusahaan,
+                "jabatan" => $checkData->jabatan,
+                "tahun_masuk" => $checkData->tahun_masuk,
+                "tahun_keluar" => $checkData->tahun_keluar,
+            ];
             return response()->json([
                 "message" => "success",
                 'statusCode' => 200,
-                "data" => Pengalaman::find($pengalaman)
-            ]);;
-        } catch (\Throwable $th) {
+                "data" => $setData
+            ]);
+        } else {
             return response()->json([
                 "message" => 'error data tidak di temukan',
                 'statusCode' => 404,

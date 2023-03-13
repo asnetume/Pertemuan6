@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('id_user');
-            $table->unsignedInteger('id_provinsi');
-            $table->text('deskripsi');
-            $table->string('status');
-            $table->string('exp_date');
+            $table->unsignedInteger('id_perusahaan_daftar_events');
             $table->string('judul');
+            $table->text('deskripsi');
+            $table->string('alamat');
+            $table->string('waktu_mulai');
+            $table->string('waktu_berakhir');
+            $table->string('status');
             $table->timestamps();
         });
     }
