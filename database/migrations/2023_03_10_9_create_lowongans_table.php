@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('lowongans', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('id_perusahaan');
-            $table->unsignedInteger('id_perusahaan_daftar_event');
+            $table->foreignId('id_perusahaan')->references('id')->on('perusahaans');
+            $table->foreignId('id_perusahaan_daftar_event')->references('id')->on('perusahaans_daftar_event');
             $table->string('posisi');
             $table->unsignedInteger('kuota');
             $table->string('tugas');

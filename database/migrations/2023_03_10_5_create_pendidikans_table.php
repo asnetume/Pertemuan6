@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('pendidikans', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('id_pencaker');
+            $table->foreignId('id_pencaker')->references('id')->on('pencakers');
             $table->string('institusi');
             $table->string('jurusan');
             $table->date('tahun_lulus');

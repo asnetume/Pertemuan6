@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pencaker__daftar__lowongans', function (Blueprint $table) {
+        Schema::create('artikels', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('id_pencaker');
-            $table->unsignedInteger('id_lowongan');
-             $table->string('lamaran');
-             $table->string('cv');
-             $table->string('status_lamaran');
+            $table->foreignId('id_pencaker')->references('id')->on('pencakers');
+            $table->string('judul');
+            $table->text('isi');
             $table->timestamps();
         });
     }
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pencaker__daftar__lowongans');
+        Schema::dropIfExists('artikels');
     }
 };

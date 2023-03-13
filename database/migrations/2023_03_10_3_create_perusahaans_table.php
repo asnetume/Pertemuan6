@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('perusahaans', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('id_user');
-            $table->unsignedInteger('id_bidang');
-            $table->unsignedInteger('id_provinsi');
+            $table->foreignId('id_user')->references('id')->on('users');
+            $table->foreignId('id_bidang')->references('id')->on('bidangs');
+            $table->foreignId('id_provinsi')->references('id')->on('provinsis');
             $table->string('nama_perushaan');
             $table->string('alamat');
             $table->string('website');

@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('pencakers', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('id_user');
-            $table->unsignedInteger('id_provinsi');
+            $table->foreignId('id_user')->references('id')->on('users');
+            $table->foreignId('id_provinsi')->references('id')->on('provinsis');
             $table->string('nama');
             $table->date('tangal_lahir');
             $table->string('jenis_kelamin');

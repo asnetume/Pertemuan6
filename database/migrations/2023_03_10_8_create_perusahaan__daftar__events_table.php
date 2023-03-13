@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('perusahaan__daftar__events', function (Blueprint $table) {
             $table->id();
-             $table->unsignedInteger('id_perusahaan');
-            $table->unsignedInteger('id_event');
+             $table->foreignId('id_perusahaan')->references('id')->on('perusahaans');
+            // $table->foreignId('id_event')->references('id')->on('events');
             $table->string('nama_pic');
             $table->string('jabatan_pic');
             $table->string('persetujuan');
