@@ -24,7 +24,10 @@ class StoreSupplierRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            "Nama_Supplier" => 'required',
+            "Alamat" => 'required',
+            "Telpon" => 'required',
+            "Email" => 'required',
         ];
     }
 }

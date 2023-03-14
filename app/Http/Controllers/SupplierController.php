@@ -27,12 +27,7 @@ class SupplierController extends Controller
     public function save(StoreSupplierRequest $request)
     {
         try{
-            $request->validate([
-                "Nama_Supplier" => 'required',
-                "Alamat" => 'required',
-                "Telpon" => 'required',
-                "Email" => 'required',
-            ]);
+        //    $validate = $request->validate();
             $data = new Supplier();
             $data->Nama_Supplier = $request->Nama_Supplier;
             $data->Alamat = $request->Alamat;
@@ -48,6 +43,8 @@ class SupplierController extends Controller
 
     public function updateSupplier($id,UpdateSupplierRequest $supplier)
     {
+      try {  
+        // $validate = $supplier->validate();
         $data = Supplier::find($id);
         $data->Nama_Supplier=$supplier->Nama_Supplier;
         $data->Alamat=$supplier->Alamat;
@@ -55,6 +52,10 @@ class SupplierController extends Controller
         $data->Email=$supplier->Email;
         $data->save();
         return response()->json($data);
+      }
+      catch(Exception $e){
+        return response()->json(['message'=>'Failed'.$e->getMessage()],400);
+    };
     }
 
     public function deleteSupplier($id)
