@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Bidang;
 use App\Http\Requests\StoreBidangRequest;
 use App\Http\Requests\UpdateBidangRequest;
+use Illuminate\Support\Facades\Auth;
 
 class BidangController extends Controller
 {
@@ -13,6 +14,8 @@ class BidangController extends Controller
      */
     public function index()
     {
+        $test = Auth::check();
+        dd($test);
         return response()->json([
             "message" => "success",
             'statusCode' => 200,

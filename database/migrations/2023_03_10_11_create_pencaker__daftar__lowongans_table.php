@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('id_pencaker')->references('id')->on('pencakers');
             $table->foreignId('id_lowongan')->references('id')->on('lowongans');
-             $table->string('lamaran');
+             $table->text('lamaran');
              $table->string('cv');
              $table->string('status_lamaran');
             $table->timestamps();

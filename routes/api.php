@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ArtikelController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BidangController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\LowonganController;
@@ -30,9 +31,12 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::resource('/lowongan',  LowonganController::class);
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']);
 
-Route::resource('/perusahaan',  PerusahaanController::class);
+Route::resource('/lowongan',  LowonganController::class)->middleware('IsPencaker');
+
+Route::resource('/perusahaan',  PerusahaanController::class)->middleware('IsPerushaan');
 
 Route::resource('/pendidikan',  PendidikanController::class);
 

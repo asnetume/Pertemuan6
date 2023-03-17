@@ -168,7 +168,7 @@ class PencakerController extends Controller
             ]);
         } catch (\Throwable $th) {
             return response()->json([
-                "message" => $th->getMessage(),
+                "message" => "error kesalahan saat delete data",
                 'statusCode' => 400,
             ]);
         }
